@@ -1,2 +1,0 @@
-# CatiKati_Sudoku
-# supportweb
