@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Destek Sayfası</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f4f4;
+      margin: 0;
+      padding: 0;
+    }
+
+    #container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+
+    form {
+      text-align: left;
+    }
+
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 10px;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    textarea {
+      height: 150px;
+    }
+
+    input[type="button"] {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+
+    input[type="button"]:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="container">
+    <h1>Destek Sayfası</h1>
+    <form id="supportForm">
+      <label for="name">Adınız:</label>
+      <input type="text" id="name" name="name" required>
+
+      <label for="email">E-posta Adresiniz:</label>
+      <input type="email" id="email" name="email" required>
+
+      <label for="request">Destek Talebiniz:</label>
+      <textarea id="request" name="request" rows="4" required></textarea>
+
+      <input type="button" value="Gönder" onclick="sendEmail()">
+    </form>
+  </div>
+
+  <script>
+    function sendEmail() {
+      var name = document.getElementById("name").value;
+      var email = document.getElementById("email").value;
+      var request = document.getElementById("request").value;
+
+      var subject = "Destek Talebi";
+      var mailtoLink = "mailto:catikatibilisim@gmail.com" +
+        "?subject=" + encodeURIComponent(subject) +
+        "&body=" + encodeURIComponent("Ad: " + name + "\nE-posta: " + email + "\nTalep: " + request);
+
+      window.location.href = mailtoLink;
+    }
+  </script>
+</body>
+
+</html>
