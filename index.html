@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Destek Sayfası</title>
+  <title>Cati Kati Bilisim Destek</title>
   <style>
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -82,7 +82,12 @@
 
 <body>
   <div id="container">
-    <h1>Çatı Katı Bilişim</h1>
+    <h4>
+      <span style="color: #007bff;">Çatı</span>
+      <span style="color: red;">Katı</span>
+      <span style="color: teal;">Bilişim</span>
+    </h4>
+
     <h1>Destek Sayfası</h1>
     <form id="supportForm" onsubmit="return validateForm()">
       <label for="name">Adınız:</label>
@@ -91,12 +96,15 @@
       <label for="email">E-posta Adresiniz:</label>
       <input type="email" id="email" name="email" required>
 
-      <label for="program">Program Adını Seçiniz:</label>
+      <br>
+      <br>
+
+      <!-- <label for="program">Program Adını Seçiniz:</label> -->
       <select id="program" name="program" required>
-        <option value="" disabled selected>Seçiniz</option>
-        <option value="Program 1">Sudoku PRO</option>
+        <option value="" disabled selected>Program Adını Seçiniz</option>
+        <option value="Sudoku PRO">Sudoku PRO</option>
         <! <option value="Program 2">Program 2</option>---->
-        <!-- Diğer program seçeneklerini buraya ekleyebilirsiniz -->
+
       </select>
 
       <label for="request">Destek Talebiniz:</label>
