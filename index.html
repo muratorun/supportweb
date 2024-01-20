@@ -7,8 +7,8 @@
   <title>Destek Sayfası</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f4f4f4;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f8f9fa;
       margin: 0;
       padding: 0;
     }
@@ -17,13 +17,15 @@
       max-width: 600px;
       margin: 0 auto;
       padding: 20px;
-      background-color: #fff;
+      background-color: #ffffff;
       box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      margin-top: 50px;
     }
 
     h1 {
       text-align: center;
-      color: #333;
+      color: #343a40;
     }
 
     form {
@@ -34,65 +36,101 @@
       font-weight: bold;
       display: block;
       margin-top: 10px;
+      color: #495057;
     }
 
     input[type="text"],
     input[type="email"],
+    select,
     textarea {
-      width: 100%;
+      width: calc(100% - 22px);
       padding: 10px;
       margin-top: 5px;
-      border: 1px solid #ccc;
+      border: 1px solid #ced4da;
       border-radius: 4px;
+      box-sizing: border-box;
+      background-color: #f1f3f5;
+      color: #495057;
     }
 
     textarea {
       height: 150px;
+      resize: vertical;
     }
 
-    input[type="button"] {
+    input[type="submit"] {
       background-color: #007bff;
       color: #fff;
       border: none;
       padding: 10px 20px;
       cursor: pointer;
+      width: 100%;
+      border-radius: 4px;
     }
 
-    input[type="button"]:hover {
+    input[type="submit"]:hover {
       background-color: #0056b3;
+    }
+
+    .error-message {
+      color: #dc3545;
+      font-size: 14px;
+      margin-top: 5px;
     }
   </style>
 </head>
 
 <body>
   <div id="container">
+    <h1>Çatı Katı Bilişim</h1>
     <h1>Destek Sayfası</h1>
-    <form id="supportForm">
+    <form id="supportForm" onsubmit="return validateForm()">
       <label for="name">Adınız:</label>
       <input type="text" id="name" name="name" required>
 
       <label for="email">E-posta Adresiniz:</label>
       <input type="email" id="email" name="email" required>
 
+      <label for="program">Program Adını Seçiniz:</label>
+      <select id="program" name="program" required>
+        <option value="" disabled selected>Seçiniz</option>
+        <option value="Program 1">Sudoku PRO</option>
+        <! <option value="Program 2">Program 2</option>---->
+        <!-- Diğer program seçeneklerini buraya ekleyebilirsiniz -->
+      </select>
+
       <label for="request">Destek Talebiniz:</label>
       <textarea id="request" name="request" rows="4" required></textarea>
 
-      <input type="button" value="Gönder" onclick="sendEmail()">
+      <input type="submit" value="Gönder">
+      <div class="error-message" id="errorMessage"></div>
     </form>
   </div>
 
   <script>
-    function sendEmail() {
+    function validateForm() {
       var name = document.getElementById("name").value;
       var email = document.getElementById("email").value;
+      var program = document.getElementById("program").value;
       var request = document.getElementById("request").value;
+
+      var errorMessage = document.getElementById("errorMessage");
+
+      if (name === "" || email === "" || program === "" || request === "") {
+        errorMessage.textContent = "Lütfen tüm alanları doldurun.";
+        return false;
+      } else {
+        errorMessage.textContent = "";
+      }
 
       var subject = "Destek Talebi";
       var mailtoLink = "mailto:catikatibilisim@gmail.com" +
         "?subject=" + encodeURIComponent(subject) +
-        "&body=" + encodeURIComponent("Ad: " + name + "\nE-posta: " + email + "\nTalep: " + request);
+        "&body=" + encodeURIComponent("Ad: " + name + "\nE-posta: " + email + "\nProgram: " + program + "\nTalep: " + request);
 
       window.location.href = mailtoLink;
+
+      return false; // Formu submit etmemesi için false döndürüyoruz
     }
   </script>
 </body>
