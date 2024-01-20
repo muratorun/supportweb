@@ -100,18 +100,28 @@
       <br>
 
       <!-- <label for="program">Program Adını Seçiniz:</label> -->
-      <select id="program" name="program" required>
-        <option value="" disabled selected>Program Adını Seçiniz</option>
-        <option value="Sudoku PRO">Sudoku PRO</option>
-        <! <option value="Program 2">Program 2</option>---->
+      <style>
+        #program {
+          font-size: 16px;
+          font-weight: bold;
+        }
+      </style>
+      </head>
 
-      </select>
+      <body>
+        <select id="program" name="program" required>
+          <option value="" disabled selected>Program Adını Seçiniz</option>
+          <option value="Sudoku PRO">Sudoku PRO</option>
+          <!-- <option value="Program 2">Program 2</option> -->
+        </select>
 
-      <label for="request">Destek Talebiniz:</label>
-      <textarea id="request" name="request" rows="4" required></textarea>
+        </select>
 
-      <input type="submit" value="Gönder">
-      <div class="error-message" id="errorMessage"></div>
+        <label for="request">Destek Talebiniz:</label>
+        <textarea id="request" name="request" rows="4" required></textarea>
+
+        <input type="submit" value="Gönder">
+        <div class="error-message" id="errorMessage"></div>
     </form>
   </div>
 
