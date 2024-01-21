@@ -103,18 +103,32 @@
       margin-top: 5px;
     }
 
+    .info-message {
+      font-size: 14px;
+      margin-top: 5px;
+      color: #28a745;
+    }
+
     /* Additional English-specific styles */
-    body[data-lang="en"] #container {
+    body[data-lang="en"] #container,
+    body:not([data-lang]) #container {
       margin-top: 50px;
     }
 
-    body[data-lang="en"] h1 {
+    body[data-lang="en"] h1,
+    body:not([data-lang]) h1 {
       color: #343a40;
+    }
+
+    #program-tr,
+    #program-en {
+      font-size: 16px;
+      font-weight: bold;
     }
   </style>
 </head>
 
-<body data-lang="tr"> <!-- Default language is Turkish (tr) -->
+<body data-lang="tr">
 
   <div id="languageToggle">
     <button onclick="changeLanguage('tr')">
@@ -145,15 +159,16 @@
       <br>
       <br>
 
-      <!-- <label for="program">Program Adını Seçiniz:</label> -->
       <select id="program-tr" name="program" required>
         <option value="" disabled selected>Program Adını Seçiniz</option>
         <option value="Sudoku PRO">Sudoku PRO</option>
+        <option value="Adım Metre">Adım Metre</option>
       </select>
 
       <select id="program-en" name="program" style="display: none;" required>
         <option value="" disabled selected>Select Program</option>
         <option value="Sudoku PRO">Sudoku PRO</option>
+        <option value="Step Counter">Step Counter</option>
       </select>
 
       <label for="request">Destek Talebiniz:</label>
@@ -161,6 +176,7 @@
 
       <input type="submit" value="Gönder">
       <div class="error-message" id="errorMessage"></div>
+      <div class="info-message" id="infoMessage"></div>
     </form>
   </div>
 
@@ -174,12 +190,15 @@
       var request = document.getElementById("request").value;
 
       var errorMessage = document.getElementById("errorMessage");
+      var infoMessage = document.getElementById("infoMessage");
 
       if (name === "" || email === "" || program === "" || request === "") {
         errorMessage.textContent = "Lütfen tüm alanları doldurun.";
+        focusEmptyFields();
         return false;
       } else {
         errorMessage.textContent = "";
+        infoMessage.textContent = ""; // Hata olmadığında bilgi mesajını sıfırla
       }
 
       var subject = "Destek Talebi";
@@ -189,12 +208,48 @@
 
       window.location.href = mailtoLink;
 
-      return false; // Formu submit etmemesi için false döndürüyoruz
+      return false;
+    }
+
+    function focusEmptyFields() {
+      var inputs = document.querySelectorAll('input, select, textarea');
+      for (var i = 0; i < inputs.length; i++) {
+        if (inputs[i].value === "") {
+          inputs[i].focus();
+          break;
+        }
+      }
     }
 
     function changeLanguage(lang) {
       document.body.setAttribute('data-lang', lang);
       updateContent(lang);
+      resetForm(); // Dil değiştiğinde formu sıfırla
+    }
+
+    function resetForm() {
+      var form = document.getElementById('supportForm');
+      if (form) {
+        form.reset();
+        var errorMessage = document.getElementById("errorMessage");
+        errorMessage.textContent = ""; // Hata mesajını sıfırla
+
+        // Dil değiştiğinde özel mesajı göster
+        showInfoMessage();
+      }
+    }
+
+    function showInfoMessage() {
+      var lang = document.body.getAttribute('data-lang');
+      var infoMessage = document.getElementById("infoMessage");
+
+      if (infoMessage) {
+        if (lang === 'en') {
+          infoMessage.textContent = "Don't forget to fill out this field!";
+        } else {
+          infoMessage.textContent = "Bu alanı doldurmayı unutmayın!";
+        }
+      }
     }
 
     function updateContent(lang) {
@@ -212,6 +267,7 @@
           '<select id="program-en" name="program" required>' +
           '<option value="" disabled selected>Select Program</option>' +
           '<option value="Sudoku PRO">Sudoku PRO</option>' +
+          '<option value="Step Counter">Step Counter</option>' +
           '</select>' +
           '<label for="request">Your Support Request:</label>' +
           '<textarea id="request" name="request" rows="4" required></textarea>' +
@@ -227,11 +283,15 @@
           '<select id="program-tr" name="program" required>' +
           '<option value="" disabled selected>Program Adını Seçiniz</option>' +
           '<option value="Sudoku PRO">Sudoku PRO</option>' +
+          '<option value="Adım Metre">Adım Metre</option>' +
           '</select>' +
           '<label for="request">Destek Talebiniz:</label>' +
           '<textarea id="request" name="request" rows="4" required></textarea>' +
           '<input type="submit" value="Gönder">';
       }
+
+      // Dil değiştiğinde özel mesajı göster
+      showInfoMessage();
     }
   </script>
 
