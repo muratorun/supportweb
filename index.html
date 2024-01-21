@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="tr">
 
 <head>
   <meta charset="UTF-8">
@@ -11,6 +11,33 @@
       background-color: #f8f9fa;
       margin: 0;
       padding: 0;
+    }
+
+    #languageToggle {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      display: flex;
+      align-items: center;
+    }
+
+    #languageToggle button {
+      margin-left: 10px;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: 16px;
+      color: #007bff;
+    }
+
+    #languageToggle img {
+      margin-right: 5px;
+      width: 20px;
+      height: 20px;
+    }
+
+    #languageToggle button:hover {
+      text-decoration: underline;
     }
 
     #container {
@@ -42,7 +69,8 @@
     input[type="text"],
     input[type="email"],
     select,
-    textarea {
+    textarea,
+    input[type="submit"] {
       width: calc(100% - 22px);
       padding: 10px;
       margin-top: 5px;
@@ -62,10 +90,7 @@
       background-color: #007bff;
       color: #fff;
       border: none;
-      padding: 10px 20px;
       cursor: pointer;
-      width: 100%;
-      border-radius: 4px;
     }
 
     input[type="submit"]:hover {
@@ -77,14 +102,35 @@
       font-size: 14px;
       margin-top: 5px;
     }
+
+    /* Additional English-specific styles */
+    body[data-lang="en"] #container {
+      margin-top: 50px;
+    }
+
+    body[data-lang="en"] h1 {
+      color: #343a40;
+    }
   </style>
 </head>
 
-<body>
+<body data-lang="tr"> <!-- Default language is Turkish (tr) -->
+
+  <div id="languageToggle">
+    <button onclick="changeLanguage('tr')">
+      <img src="TurkBayragi.png" alt="TR Flag">
+      TR
+    </button>
+    <button onclick="changeLanguage('en')">
+      <img src="uk-flag.png" alt="EN Flag">
+      EN
+    </button>
+  </div>
+
   <div id="container">
     <h4>
-      <span style="color: #007bff;">Çatı</span>
-      <span style="color: red;">Katı</span>
+      <span style="color: #007bff;">Çatı </span>
+      <span style="color: red;">Katı </span>
       <span style="color: teal;">Bilişim</span>
     </h4>
 
@@ -100,36 +146,31 @@
       <br>
 
       <!-- <label for="program">Program Adını Seçiniz:</label> -->
-      <style>
-        #program {
-          font-size: 16px;
-          font-weight: bold;
-        }
-      </style>
-      </head>
+      <select id="program-tr" name="program" required>
+        <option value="" disabled selected>Program Adını Seçiniz</option>
+        <option value="Sudoku PRO">Sudoku PRO</option>
+      </select>
 
-      <body>
-        <select id="program" name="program" required>
-          <option value="" disabled selected>Program Adını Seçiniz</option>
-          <option value="Sudoku PRO">Sudoku PRO</option>
-          <!-- <option value="Program 2">Program 2</option> -->
-        </select>
+      <select id="program-en" name="program" style="display: none;" required>
+        <option value="" disabled selected>Select Program</option>
+        <option value="Sudoku PRO">Sudoku PRO</option>
+      </select>
 
-        </select>
+      <label for="request">Destek Talebiniz:</label>
+      <textarea id="request" name="request" rows="4" required></textarea>
 
-        <label for="request">Destek Talebiniz:</label>
-        <textarea id="request" name="request" rows="4" required></textarea>
-
-        <input type="submit" value="Gönder">
-        <div class="error-message" id="errorMessage"></div>
+      <input type="submit" value="Gönder">
+      <div class="error-message" id="errorMessage"></div>
     </form>
   </div>
 
   <script>
     function validateForm() {
+      var lang = document.body.getAttribute('data-lang');
       var name = document.getElementById("name").value;
       var email = document.getElementById("email").value;
-      var program = document.getElementById("program").value;
+      var programId = lang === 'en' ? 'program-en' : 'program-tr';
+      var program = document.getElementById(programId).value;
       var request = document.getElementById("request").value;
 
       var errorMessage = document.getElementById("errorMessage");
@@ -150,7 +191,50 @@
 
       return false; // Formu submit etmemesi için false döndürüyoruz
     }
+
+    function changeLanguage(lang) {
+      document.body.setAttribute('data-lang', lang);
+      updateContent(lang);
+    }
+
+    function updateContent(lang) {
+      var container = document.getElementById('container');
+      var languageToggle = document.getElementById('languageToggle');
+
+      if (lang === 'en') {
+        document.title = 'Cati Kati Informatics Support';
+        container.innerHTML = '<h4><span style="color: #007bff;">Çatı </span><span style="color: red;">Katı </span><span style="color: teal;">Bilişim </span></h4><h1>Support Page</h1>' +
+          '<label for="name">Your Name:</label>' +
+          '<input type="text" id="name" name="name" required>' +
+          '<label for="email">Your Email Address:</label>' +
+          '<input type="email" id="email" name="email" required>' +
+          '<br><br>' +
+          '<select id="program-en" name="program" required>' +
+          '<option value="" disabled selected>Select Program</option>' +
+          '<option value="Sudoku PRO">Sudoku PRO</option>' +
+          '</select>' +
+          '<label for="request">Your Support Request:</label>' +
+          '<textarea id="request" name="request" rows="4" required></textarea>' +
+          '<input type="submit" value="Submit">';
+      } else {
+        document.title = 'Cati Kati Bilişim Destek';
+        container.innerHTML = '<h4><span style="color: #007bff;">Çatı </span><span style="color: red;">Katı </span><span style="color: teal;">Bilişim </span></h4><h1>Destek Sayfası</h1>' +
+          '<label for="name">Adınız:</label>' +
+          '<input type="text" id="name" name="name" required>' +
+          '<label for="email">E-posta Adresiniz:</label>' +
+          '<input type="email" id="email" name="email" required>' +
+          '<br><br>' +
+          '<select id="program-tr" name="program" required>' +
+          '<option value="" disabled selected>Program Adını Seçiniz</option>' +
+          '<option value="Sudoku PRO">Sudoku PRO</option>' +
+          '</select>' +
+          '<label for="request">Destek Talebiniz:</label>' +
+          '<textarea id="request" name="request" rows="4" required></textarea>' +
+          '<input type="submit" value="Gönder">';
+      }
+    }
   </script>
+
 </body>
 
 </html>
